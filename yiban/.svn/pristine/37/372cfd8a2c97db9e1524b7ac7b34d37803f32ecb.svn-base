@@ -1,0 +1,76 @@
+<?php
+	$token = isset($token) ? $token : $_GET['token'];
+
+/**
+ * 包含SDK
+ */
+require("../classes/yb-globals.inc.php");
+// 配置文件
+require_once 'config.php';
+
+//初始化配置信息，并获取token
+$api = YBOpenApi::getInstance()->init($config['AppID'], $config['AppSecret'], $config['CallBack']);
+$api->bind($token);
+$stu=new Student($api);
+$json=$stu->getYBConfig();
+//var_dump($json);
+?>
+<!DOCTYPE html>
+<html>
+
+	<head style="background-color:#FFFAFA" >
+		<meta charset="utf-8">
+		<meta content="width=device-width,user-scalable=no" name="viewport">
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script type="text/javascript" src="../js/director.js"></script>
+    	<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+    	<script src="./example.js"></script>
+		<link rel="stylesheet" type="text/css" href="../style/dist/style/weui.css">
+		<link rel="stylesheet" type="text/css" href="../style/dist/example/example.css">
+		<title style="color:black">信息登记</title>
+		<script type="text/javascript">
+    		function checktoken () {
+    			//alert("<?=$token?>");
+    			document.getElementById("tokentest").innerText ="<?=$json?>";
+    		}
+		</script>
+	</head>
+	<body style="background-color:#FFFAFA" onload="checktoken()">
+		<header>
+				<h3 style="vertical-align: middle;text-align:center;font-size:30px"><a>基本信息登记表</a></h3>
+			</header>
+		<form method="post" action="" class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">考生号</label></div>
+                <div class="weui-cell__bd">
+                    <input id="ksh" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入考生号"/>
+                </div>
+            </div>
+             <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">学号</label></div>
+                <div class="weui-cell__bd">
+                    <input id="xh" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入学号"/>
+                </div>
+            </div>
+             <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input id="xm" class="weui-input" type="text" placeholder="请输入姓名"/>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">性别</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" id="gender" name="select2">
+                        <option value="M">男</option>
+                        <option value="F">女</option>
+                    </select>
+                </div>
+            </div>
+            <button class="weui-btn weui-btn_primary" type="submit" style="position:fixed;bottom: 0px;height: 50px;">提交</button>
+        </form>
+	</body>
+
+</html>

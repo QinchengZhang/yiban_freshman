@@ -1,0 +1,45 @@
+<?php
+	$token = isset($token) ? $token : $_GET['token'];
+
+/**
+ * 包含SDK
+ */
+require("../classes/yb-globals.inc.php");
+// 配置文件
+require_once 'config.php';
+
+//初始化配置信息，并获取token
+$api = YBOpenApi::getInstance()->init($config['AppID'], $config['AppSecret'], $config['CallBack']);
+$api->bind($token);
+$stu=new Student($api);
+$json=$stu->getYBConfig();
+var_dump($json);
+?>
+<!DOCTYPE html>
+<html>
+
+	<head style="background-color:#FFFAFA" >
+		<meta charset="utf-8">
+		<meta content="width=device-width,user-scalable=no" name="viewport">
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script type="text/javascript" src="../js/director.js"></script>
+    	<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+    	<script src="./example.js"></script>
+		<link rel="stylesheet" type="text/css" href="../style/dist/style/weui.css">
+		<link rel="stylesheet" type="text/css" href="../style/dist/example/example.css">
+		<title style="color:black">信息登记</title>
+		<script type="text/javascript">
+    		function checktoken () {
+    			//alert("<?=$token?>");
+    			document.getElementById("tokentest").innerText ="<?=$json?>";
+    		}
+		</script>
+	</head>
+	<body style="background-color:#FFFAFA" onload="checktoken()">
+		<div class="page__bd" style="height: 100%;">
+		<div class="weui-card" style="margin-top:20px;margin-bottom:20px;">入学登记表</div>
+		<div id="tokentest" class="weui-btn weui-btn_primary">1231</div>
+		</div>
+	</body>
+
+</html>

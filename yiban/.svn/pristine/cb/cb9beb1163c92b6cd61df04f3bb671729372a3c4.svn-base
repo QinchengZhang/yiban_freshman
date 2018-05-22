@@ -1,0 +1,88 @@
+<?php
+class Student{
+	private $api;
+	private $_config=array(
+		'ksh' => '',
+		'xh'  => '',
+		'xm'  => '',
+		'xb' => '',
+		'yb_userid' => '',
+		'yb_username' => '',
+		'regtime' => ''
+	);
+	/*
+	函数名：构造函数
+	函数作用：将YBOpenApi传给本类内api变量，设置时区
+	*/
+	function __construct($api){
+		$this->api=$api;
+		date_default_timezone_get("Asia/Shanghai");
+		$this->_config['regtime']=date("Y-m-d h:i:s");
+	}
+	/*
+	函数名：setKsh
+	函数作用：给基础配置Ksh赋值
+	*/
+	public function setKsh($ksh){
+		$this->_config['ksh']=$ksh;
+	}
+	/*
+	函数名：setXh
+	函数作用：给基础配置xh赋值
+	*/
+	public function setXh($xh){
+		$this->_config['xh']=$xh;
+	}
+	/*
+	函数名：setXm
+	函数作用：给基础配置xm赋值
+	*/
+	public function setXm($xm){
+		$this->_config['xm']=$xm;
+	}
+	/*
+	函数名：setStuConfig
+	函数作用：给基础配置ksh,xh,xm赋值
+	*/
+	public function setStuConfig($ksh,$xh,$xm){
+		$this->_config['ksh']=$ksh;
+		$this->_config['xh']=$xh;
+		$this->_config['xm']=$xm;
+	}
+	/*
+	函数名：setToken
+	函数作用：给易班用户项配置access_token赋值
+	*/
+	public function setToken($token){
+		$this->_config['access_token']=$token;
+	}
+	/*
+	函数名：getYBConfig
+	函数作用：通过易班接口获取yb_userid,yb_username并返回
+	*/
+	public function getYBConfig(){
+		$obj=$this->api->request('user/me');
+		if($obj['status']=='error'){
+			throw new YBException($obj['info']['msgCN']);
+		}else{
+			//$this->_config['yb_userid']=$this->api->_config['token'];
+			$this->_config['yb_userid']=$obj['info']['yb_userid'];
+			$this->_config['yb_username']=$obj['info']['yb_username'];
+			$this->_config['xb']=$obj['info']['yb_sex'];
+		}
+		return array('yb_userid' => $this->_config['yb_userid'],
+					 'yb_username'  => $this->_config['yb_username'],
+					 'xb'  => $this->_config['xb']
+					);
+	}
+	/*
+	函数名：getStuConfig
+	函数作用：返回学生基本信息
+	*/
+	public function getStuConfig(){
+		return array('ksh' => $this->_config['ksh'],
+					 'xh'  => $this->_config['xh'],
+					 'xm'  => $this->_config['ksh']
+					);
+	}
+}

@@ -1,0 +1,75 @@
+<?php
+	$token = isset($token) ? $token : $_GET['token'];
+?>
+<!DOCTYPE html>
+<html>
+
+	<head style="background-color:#FFFAFA" >
+		<meta charset="utf-8">
+		<meta content="width=device-width,user-scalable=no" name="viewport">
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script type="text/javascript" src="../js/director.js"></script>
+    	<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../style/dist/style/weui.css">
+		<link rel="stylesheet" type="text/css" href="../style/dist/example/example.css">
+		<title style="color:black">信息登记</title>
+		<script type="text/javascript">
+			function CheckandSubmit(){
+				var ksh=document.getElementById("ksh").value;
+				var xh=document.getElementById("xh").value;
+				var toptips=document.getElementById("toptips");
+				if(ksh.length!=14){
+					//toptips.innrText="请输入14位考生号";
+					toptips.style.visibility = 'visible';
+					
+					//alert("请输入14位考生号");
+					return;
+				}else if (xh.length!=12) {
+					alert("请输入12位学号");
+					return;
+				}else{
+					document.getElementById("form").submit();
+				}
+			}
+		</script>
+	</head>
+	<body style="background-color:#FFFAFA" >
+		<div id="toptips" class="weui-toptips weui-toptips_warn js_tooltips" style="visibility: visible;">错误提示</div>
+		<header>
+				<h3 style="vertical-align: middle;text-align:center;font-size:30px"><a>基本信息登记表</a></h3>
+			</header>
+		<form method="post" action="update.php?token=<?=$token?>" class="weui-cells weui-cells_form" id="form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">考生号</label></div>
+                <div class="weui-cell__bd">
+                    <input id="ksh" name="ksh" class="weui-input" type="number" required pattern="[0-9]{14}" title="14位考生号" placeholder="请输入考生号"/>
+                </div>
+            </div>
+             <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">学号</label></div>
+                <div class="weui-cell__bd">
+                    <input id="xh" name="xh" class="weui-input" type="number" required pattern="[0-9]{12}" title="12位学号" placeholder="请输入学号"/>
+                </div>
+            </div>
+             <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+                <div class="weui-cell__bd">
+                    <input id="xm" name="xm" class="weui-input" type="text" required placeholder="请输入姓名"/>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">性别</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" id="gender" name="gender">
+                        <option value="M">男</option>
+                        <option value="F">女</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" class="weui-btn weui-btn_primary" onclick="CheckandSubmit()" style="bottom: 0px;">提交</button>
+        </form>
+	</body>
+
+</html>

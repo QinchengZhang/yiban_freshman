@@ -1,0 +1,34 @@
+<!-- MarkerList完整示例 -->
+<?php
+    $longitude=117.957878;
+    $latitude=41.035808;
+?>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>异步加载地图</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+</head>
+<body>
+<div id="container" style="height: 100%;margin: 0px;"></div>
+<script>
+    function onApiLoaded(){
+        var map = new AMap.Map('container', {
+            center: [<?php echo $longitude;?>,<?php echo $latitude;?>],
+            zoom: 6
+        });
+        map.plugin(["AMap.ToolBar"], function() {
+            map.addControl(new AMap.ToolBar());
+        });
+    }
+     var url = 'http://webapi.amap.com/maps?v=1.4.6&key=2249bb2128d7c5e601e58c5896674036&callback=onApiLoaded';
+    var jsapi = document.createElement('script');
+    jsapi.charset = 'utf-8';
+    jsapi.src = url;
+    document.head.appendChild(jsapi);
+</script>
+</body>
+</html>
