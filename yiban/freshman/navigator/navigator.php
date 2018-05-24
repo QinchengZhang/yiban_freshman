@@ -10,9 +10,8 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <title>步行路径规划</title>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-        <script type="text/javascript" src="../js/director.js"></script>
+        <script type="text/javascript" src="../js/navigator.js"></script>
         <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
-        <script src="./example.js"></script>
         <link rel="stylesheet" type="text/css" href="../style/dist/style/weui.css">
         <link rel="stylesheet" type="text/css" href="../style/dist/example/example.css">
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main.css"/>
