@@ -56,6 +56,10 @@
         |-- updateinfo.php      提交学生信息前端页面
         |
         |-- warning.php      重复填写学生信息警告通知
+        |
+        |-- error.php        学生信息提交失败通知
+        |
+        |-- 404.php          应用维护跳转页面
   |
   |-- README.MD          本文档
 

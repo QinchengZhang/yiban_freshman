@@ -1,7 +1,4 @@
-<?php 
-require_once 'config.php';
-$token=$_GET['token'];
-?>
+
 <!DOCTYPE html>
 <html>
 
@@ -13,19 +10,19 @@ $token=$_GET['token'];
         <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../style/dist/style/weui.css">
         <link rel="stylesheet" type="text/css" href="../style/dist/example/example.css">
+        <script type="text/javascript">
+        </script>
     </head>
     <body style="background-color:#FFFAFA" >
         <header>
             <br>
-                <h3 class="weui-msg__title" style="vertical-align: middle;text-align:center;font-size:30px"><a>提交成功！</a></h3>
-                 <h3 class="weui-msg__desc" style="vertical-align: middle;text-align:center;font-size:15px"><a>您现在可以通过浏览提交历史查看刚才的信息，如果有误请联系工作人员修改</a></h3>
+                <h3 class="weui-msg__title" style="vertical-align: middle;text-align:center;font-size:30px"><a>404 NOT FOUND</a></h3>
+                 <h3 class="weui-msg__desc" style="vertical-align: middle;text-align:center;font-size:15px"><a>本模块正在维护中，请耐心等待。。。</a></h3>
             </header>
             <div class="weui-msg__opr-area">
             <p class="weui-btn-area">
-                <a onclick="javascript:window.location.href='browseinfo.php?token=<?=$token?>'" class="weui-btn weui-btn_primary">浏览提交历史</a>
-                <a onclick="phone_fun('<?=$config['PhoneNumber']?>')" class="weui-btn weui-btn_default">联系工作人员</a>
+                
             </p>
         </div>
     </body>
-
 </html>
