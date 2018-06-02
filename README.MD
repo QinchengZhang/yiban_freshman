@@ -47,6 +47,8 @@
         |
         |-- map.php      查看地图
         |
+        |-- help.php      帮助，拨打各部门联系电话
+        |
         |-- navigator.php     导航
         |
         |-- success.php      提交成功通知
