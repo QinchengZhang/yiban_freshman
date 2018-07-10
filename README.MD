@@ -133,3 +133,4 @@
   |-- README.MD          本文档
 
 #### 使用说明
+DOC地址 https://apidoc.gitee.com/cdmczqc/yiban_freshman_navigator
