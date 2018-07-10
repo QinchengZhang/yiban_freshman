@@ -1,0 +1,25 @@
+<?php
+	function checkDistinct($connect,$xh){
+		$sql="SELECT * FROM stu_clothing WHERE xh='$xh'";
+		$result=$connect->query($sql);
+		if($result->numrows!=0){
+			return false;
+		}
+		else{
+			return true;
+		}	
+	}
+	require('../classes/DBConnector.class.php');
+	$size=$_POST['size'];
+	$xh=$_POST['xh'];
+	$connect=DBConnector::connect();
+	if(checkDistinct($connect,$xh)){
+		$sql="INERT INTO stu_clothing (xh,size) VALUES ('$xh','$size')";
+		if($this->connect->query($sql)){
+			die(array('status' => 'success','info' => array('msg' => '提交成功')));
+			}else{
+			die(array('status' => 'error','info' => array('msg' => '提交失败')));
+			}
+	}else{
+		die(array('status' => 'error','info' => array('msg' => '重复提交')));
+	}

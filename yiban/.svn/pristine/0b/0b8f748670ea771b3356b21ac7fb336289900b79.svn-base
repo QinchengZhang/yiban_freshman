@@ -1,0 +1,32 @@
+<?php
+	function checkChoices($connect,$xh){
+		$sql="SELECT * FROM stu_choices WHERE xh='$xh'";
+		$result=$connect->query($sql);
+		if($result->num_rows!=0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	require('../classes/DBConnector.class.php');
+	$xh=$_GET['xh'];
+	$connect=DBConnector::connect();
+	if(checkChoices($connect,$xh)){
+			$sql="SELECT * FROM stu_choices WHERE xh='$xh'";
+			$retval=$connect->query($sql);
+			$retval=$retval->fetch_object();
+			$result=array('status' => 'success',
+						  'info'=> array('bedding' => $retval->bedding,
+						  				'quilt' => $retval->quilt,
+						  				'puff' => $retval->puff,
+						  				'mattress' => $retval->mattress,
+						  				'stool' => $retval->stool,
+						  				'pillow' => $retval->pillow,
+						  				'size' => $retval->size,
+						  				'comment' => $retval->comment),
+						);
+	}else{
+		$result=array('status' => 'error','info' => array('msg' => '不存在预订信息'));
+	}
+	echo json_encode($result);

@@ -1,0 +1,130 @@
+<?php
+class Student{
+	private $api;
+	private $_config=array(
+		'xh'  => '',
+		'xm'  => '',
+		'xb' => '',
+		'collegename' => '',
+		'major' => '',
+		'xl' => '',
+		'coach' => '',
+		'coach_phone' => '',
+		'dorm_num' => '',
+		'dorm' => '',
+		'yb_userid' => '',
+	);
+	private $_choices=array(
+            'xh' => '',
+            'bedding' => '',
+            'quilt' => '',
+            'puff' => '',
+            'mattress' => '',
+            'stool' => '',
+            'pillow' => '',
+            'size' => '',
+            'comment' => '',
+            );
+	/*
+	函数名：构造函数
+	函数作用：将YBOpenApi传给本类内api变量，设置时区
+	*/
+	function __construct($api){
+		$this->api=$api;
+		$this->getYBID();
+		$this->getRealInfo();
+		$this->getStuInfo();
+		date_default_timezone_set("Asia/Shanghai");
+	}
+	/*
+	函数名：setStuChoices
+	函数作用：更新被服信息数据到数据库
+	参数说明：array(
+            'xh' => data,
+            'bedding' => data,
+            'quilt' => data,
+            'puff' => data,
+            'mattress' => data,
+            'stool' => data,
+            'pillow' => data,
+            'size' => data,
+            'comment' => data,
+            );
+	*/
+	public function setStuChoices($config){
+		$url=$_SERVER['SERVER_NAME']."/yiban/freshman/CURDApi/setchoices.php";
+		$obj=YBOpenApi::QueryURL($url,$config);
+		return $obj;
+	}
+	/*
+	函数名：getYBID
+	函数作用：通过易班接口获取yb_userid并返回
+	*/
+	public function getYBID(){
+		$obj=$this->api->request('user/me');
+		if($obj['status']=='error'){
+			throw new YBException($obj['info']['msgCN']);
+		}else{
+			$this->_config['yb_userid']=$obj['info']['yb_userid'];
+		}
+	}
+	/*
+	函数名：getRealInfo
+	函数作用：通过易班接口获取yb_sex,yb_realname并返回
+	*/
+	public function getRealInfo(){
+		$obj=$this->api->request('user/real_me');
+		if($obj['status']=='error'){
+			throw new YBException($obj['info']['msgCN']);
+		}else{
+			$this->_config['xb']=$obj['info']['yb_sex'];
+			$this->_config['xm']=$obj['info']['yb_realname'];
+		}
+	}
+	/*
+	函数名：getStuInfo
+	函数作用：从易班接口获取学生信息
+	*/
+	public function getStuInfo(){
+		$obj=$this->api->request('user/verify_me');
+		if($obj['status']=='error'){
+			throw new YBException($obj['info']['msgCN']);
+		}else{
+			$this->_config['xh']=$obj['info']['yb_studentid'];
+			$this->_config['collegename']=$obj['info']['yb_collegename'];
+			$this->_config['classname']=$obj['info']['yb_classname'];
+		}
+	}
+	/*
+	函数名：showInfo
+	函数作用：取出$_config内yb_userid返回
+	*/
+	public function showInfo(){
+		if(empty($this->_config['yb_userid']))
+			getYBID();
+		if(empty($this->_config['xm']))
+			getRealInfo();
+		if(empty($this->_config['xh']))
+			getStuInfo();
+		return $this->_config;
+	}
+	/*
+	函数名：checkOrder
+	函数作用：查看是否已提交预订信息
+	返回值：array('status' => 'success'/'error' , 'info' => array('msg' => ''))
+	*/
+	public function checkOrder(){
+		$url=$_SERVER['SERVER_NAME']."/yiban/freshman/CURDApi/checkorder.php";
+		$obj=YBOpenApi::QueryURL($url,array('xh' => $this->_config['xh']));
+		return $obj;
+	}
+	/*
+	函数名：showOrderInfo
+	函数作用：查看预订信息
+	*/
+	public function showOrderInfo(){
+		$url=$_SERVER['SERVER_NAME']."/yiban/freshman/CURDApi/showorderinfo.php?xh=".$this->_config['xh'];
+		$obj=YBOpenApi::QueryURL($url);
+		return $obj;
+	}
+}

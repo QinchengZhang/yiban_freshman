@@ -1,0 +1,195 @@
+<?php
+	$token = isset($token) ? $token : htmlentities($_GET['token'],ENT_QUOTES);
+	/**
+ 	* 包含SDK
+ 	*/
+	require("../classes/yb-globals.inc.php");
+	// 配置文件
+	require_once 'config.php';
+	$api = YBOpenApi::getInstance()->init($config['AppID'], $config['AppSecret'], $config['CallBack']);
+	$api->bind($token);
+	$stu=new Student($api);
+?>
+        <!DOCTYPE html>
+        <html>
+            
+            <head style="background-color:#FFFAFA">
+                <meta charset="utf-8">
+                <meta content="width=device-width,user-scalable=no" name="viewport">
+                <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js">
+                </script>
+                <script type="text/javascript" src="../js/navigator.js">
+                </script>
+                <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js">
+                </script>
+                <link rel="stylesheet" type="text/css" href="../style/dist/style/weui.css">
+                <link rel="stylesheet" type="text/css" href="../style/dist/example/example.css">
+                <title style="color:black">
+                    预订被服
+                </title>
+                <script type="text/javascript">
+                </script>
+            </head>
+            
+            <body style="background-color:#FFFAFA">
+                <header>
+                    <h3 style="vertical-align: middle;text-align:center;font-size:30px">
+                        <a>
+                            新生被服预定订单
+                        </a>
+                    </h3>
+                </header>
+                <form method="post" action="update.php?token=<?=$token?>" class="weui-cells weui-cells_form"
+                id="form">
+                	<div class="weui-cells__title">宿舍及军训用品选择</div>
+                	<div class="weui-cell">
+                		<div class="weui-cell__bd">
+                    		<div class="weui-cells weui-cells_checkbox">
+                            <label class="weui-cell weui-check__label" for="choice1">
+                                <div class="weui-cell__hd">
+                                    <input type="checkbox" class="weui-check" name="bedding" id="choice1"
+                                    checked="checked" />
+                                    <i class="weui-icon-checked">
+                                    </i>
+                                </div>
+                                <div class="weui-cell__bd">
+                                    <p>
+                                        床上三件套
+                                    </p>
+                                </div>
+                            </label>
+                            <label class="weui-cell weui-check__label" for="choice2">
+                                <div class="weui-cell__hd">
+                                    <input type="checkbox" name="quilt" class="weui-check" id="choice2" />
+                                    <i class="weui-icon-checked">
+                                    </i>
+                                </div>
+                                <div class="weui-cell__bd">
+                                    <p>
+                                        被子
+                                    </p>
+                                </div>
+                            </label>
+                            <label class="weui-cell weui-check__label" for="choice3">
+                                <div class="weui-cell__hd">
+                                    <input type="checkbox" name="puff" class="weui-check" id="choice3" />
+                                    <i class="weui-icon-checked">
+                                    </i>
+                                </div>
+                                <div class="weui-cell__bd">
+                                    <p>
+                                        褥子
+                                    </p>
+                                </div>
+                            </label>
+                            <label class="weui-cell weui-check__label" for="choice4">
+                                <div class="weui-cell__hd">
+                                    <input type="checkbox" name="mattress" class="weui-check" id="choice4"
+                                    />
+                                    <i class="weui-icon-checked">
+                                    </i>
+                                </div>
+                                <div class="weui-cell__bd">
+                                    <p>
+                                        床垫
+                                    </p>
+                                </div>
+                            </label>
+                            <label class="weui-cell weui-check__label" for="choice5">
+                                <div class="weui-cell__hd">
+                                    <input type="checkbox" name="stool" class="weui-check" id="choice5" />
+                                    <i class="weui-icon-checked">
+                                    </i>
+                                </div>
+                                <div class="weui-cell__bd">
+                                    <p>
+                                        马扎
+                                    </p>
+                                </div>
+                            </label>
+                            <label class="weui-cell weui-check__label" for="choice6">
+                                <div class="weui-cell__hd">
+                                    <input type="checkbox" name="pillow" class="weui-check" id="choice6" />
+                                    <i class="weui-icon-checked">
+                                    </i>
+                                </div>
+                                <div class="weui-cell__bd">
+                                    <p>
+                                        枕头
+                                    </p>
+                                </div>
+                            </label>
+                        </div>
+                		</div>
+            		</div>
+                    <br>
+                    <div class="weui-cells__title">军训服尺码选择</div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label">
+                                尺码
+                            </label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="size">
+                                <option value="150">
+                                    150
+                                </option>
+                                <option value="155">
+                                    155
+                                </option>
+                                <option value="160">
+                                    160
+                                </option>
+                                <option value="165">
+                                    165
+                                </option>
+                                <option value="170">
+                                    170
+                                </option>
+                                <option value="175">
+                                    175
+                                </option>
+                                <option value="180">
+                                    180
+                                </option>
+                                <option value="185">
+                                    185
+                                </option>
+                                <option value="190">
+                                    190
+                                </option>
+                                <option value="195">
+                                    195
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="weui-cells__title">备注</div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <textarea class="weui-textarea" id="comment" name="comment" placeholder="请输入文本"
+                                rows="3">
+                                </textarea>
+                                <div class="weui-textarea-counter">
+                                    <span>
+                                        0
+                                    </span>
+                                    /200
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    <button type="button" class="weui-btn weui-btn_primary" onclick="CheckandSubmit(1)"
+                    style="bottom: 0px;">
+                        定位提交
+                    </button>
+                    <button type="button" class="weui-btn weui-btn_primary" onclick="CheckandSubmit(2)"
+                    style="bottom: 0px;">
+                        扫码提交
+                    </button>
+                </form>
+            </body>
+        
+        </html>

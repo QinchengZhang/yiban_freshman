@@ -1,0 +1,33 @@
+<?php
+	function checkDistinct($connect,$xh){
+		$sql="SELECT * FROM stu_choices WHERE xh='$xh'";
+		$result=$connect->query($sql);
+		if($result->num_rows==0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	require('../classes/DBConnector.class.php');
+	$bedding=$_GET['bedding'];
+	$quilt=$_GET['quilt'];
+	$puff=$_GET['puff'];
+	$mattress=$_GET['mattress'];
+	$stool=$_GET['stool'];
+	$pillow=$_GET['pillow'];
+	$comment=$_GET['comment'];
+	$size=$_GET['size'];
+	$xh=$_GET['xh'];
+	$connect=DBConnector::connect();
+	if(checkDistinct($connect,$xh)){
+		$sql="INSERT INTO stu_choices (xh,bedding,quilt,puff,mattress,stool,pillow,comment,size) VALUES ('$xh','$bedding','$quilt','$puff','$mattress','$stool','$pillow','$comment','$size')";
+		if($connect->query($sql)){
+			$result=array('status' => 'success','info' => array('msg' => '提交成功'));
+		}else{
+			$result=array('status' => 'error','info' => array('msg' => '提交失败'));
+		}
+	}else{
+		$result=array('status' => 'error','info' => array('msg' => '重复提交'));
+	}
+	echo json_encode($result);

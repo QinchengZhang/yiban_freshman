@@ -1,0 +1,29 @@
+<?php
+	require('../classes/DBConnector.class.php');
+	$bedding=$_GET['bedding'];
+	$quilt=$_GET['quilt'];
+	$puff=$_GET['puff'];
+	$mattress=$_GET['mattress'];
+	$stool=$_GET['stool'];
+	$pillow=$_GET['pillow'];
+	$arr=array('clothing');
+	if($bedding=='1')
+		array_push($arr, 'bedding');
+	if($quilt=='1')
+		array_push($arr, 'quilt');
+	if($puff=='1')
+		array_push($arr, 'puff');
+	if($mattress=='1')
+		array_push($arr, 'mattress');
+	if($stool=='1')
+		array_push($arr, 'stool');
+	if($pillow=='1')
+		array_push($arr, 'pillow');
+	$connect=DBConnector::connect();
+	$sql="SELECT SUM(price) FROM prices WHERE goodstag IN (";
+	foreach($arr as $e)
+		$sql.="'".$e."',";
+	$sql.="'')";
+    $result=$connect->query($sql);
+    $result=$result->fetch_all();
+    echo json_encode($result[0][0]);

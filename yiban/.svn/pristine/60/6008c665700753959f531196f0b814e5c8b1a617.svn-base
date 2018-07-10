@@ -1,0 +1,96 @@
+<?php
+class Student{
+	private $api;
+	private $_config=array(
+		'xh'  => '',
+		'xm'  => '',
+		'xb' => '',
+		'collegename' => '',
+		'major' => '',
+		'xl' => '',
+		'coach' => '',
+		'coach_phone' => '',
+		'dorm_num' => '',
+		'dorm' => '',
+		'yb_userid' => '',
+		'bedding' => '',
+		'clothing' => ''
+	);
+	/*
+	函数名：构造函数
+	函数作用：将YBOpenApi传给本类内api变量，设置时区
+	*/
+	function __construct($api){
+		$this->api=$api;
+		date_default_timezone_set("Asia/Shanghai");
+	}
+	/*
+	函数名：setStuBedding
+	函数作用：更新Bedding数据到数据库
+	参数说明：array('ksh'=>data,'xh'=>data,'xm'=>data,'xb'=>data)
+	*/
+	public function setStuBedding($config){
+
+	}
+	/*
+	函数名：setStuClothing
+	函数作用：更新Clothing数据到数据库
+	参数说明：size尺码大小150-195
+	*/
+	public function setStuClothing($size){
+
+	}
+	/*
+	函数名：getYBID
+	函数作用：通过易班接口获取yb_userid并返回
+	*/
+	public function getYBID(){
+		$obj=$this->api->request('user/me');
+		if($obj['status']=='error'){
+			throw new YBException($obj['info']['msgCN']);
+		}else{
+			//$this->_config['yb_userid']=$this->api->_config['token'];
+			$this->_config['yb_userid']=$obj['info']['yb_userid'];
+		}
+	}
+	/*
+	函数名：getRealInfo
+	函数作用：通过易班接口获取yb_sex,yb_realname并返回
+	*/
+	public function getRealInfo(){
+		$obj=$this->api->request('user/real_me');
+		if($obj['status']=='error'){
+			throw new YBException($obj['info']['msgCN']);
+		}else{
+			$this->_config['xb']=$obj['info']['yb_sex'];
+			$this->_config['xm']=$obj['info']['yb_realname'];
+		}
+	}
+	/*
+	函数名：getStuInfo
+	函数作用：从易班接口获取学生信息
+	*/
+	public function getStuInfo(){
+		$obj=$this->api->request('user/verify_me');
+		if($obj['status']=='error'){
+			throw new YBException($obj['info']['msgCN']);
+		}else{
+			$this->_config['xh']=$obj['info']['yb_studentid'];
+			$this->_config['collegename']=$obj['info']['yb_collegename'];
+			$this->_config['classname']=$obj['info']['yb_classname'];
+		}
+	}
+	/*
+	函数名：showInfo
+	函数作用：取出$_config内yb_userid返回
+	*/
+	public function showInfo(){
+		if(empty($this->_config['yb_userid']))
+			getYBID();
+		if(empty($this->_config['xm']))
+			getRealInfo();
+		if(empty($this->_config['xh']))
+			getStuInfo();
+		return $this->_config;
+	}
+}
