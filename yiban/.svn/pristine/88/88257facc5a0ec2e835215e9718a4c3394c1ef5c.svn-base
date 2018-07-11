@@ -1,5 +1,6 @@
 <?php 
 require_once 'config.php';
+$info=htmlentities($_GET['info'],ENT_QUOTES);
 $msg=htmlentities($_GET['Msg'],ENT_QUOTES);
 ?>
 <!DOCTYPE html>
@@ -19,13 +20,11 @@ $msg=htmlentities($_GET['Msg'],ENT_QUOTES);
     <body style="background-color:#FFFAFA" >
         <header>
             <br>
-                <h3 class="weui-msg__title" style="vertical-align: middle;text-align:center;font-size:30px"><a><font color="red">提交失败!</font></a></h3>
+                <h3 class="weui-msg__title" style="vertical-align: middle;text-align:center;font-size:30px"><a><font color="red"><?=$info?></font></a></h3>
                  <h3 class="weui-msg__desc" style="vertical-align: middle;text-align:center;font-size:15px"><a><?=$msg?></a></h3>
             </header>
             <div class="weui-msg__opr-area">
             <p class="weui-btn-area">
-                <a onclick="javascript:window.history.back()" class="weui-btn weui-btn_primary">返回</a>
-                <a onclick="phone_fun('<?=$TelNumberList['YBKF']?>')" class="weui-btn weui-btn_default">联系工作人员</a>
             </p>
         </div>
     </body>
